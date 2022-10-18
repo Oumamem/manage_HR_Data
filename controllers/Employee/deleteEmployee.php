@@ -12,20 +12,20 @@ $db= $database->getConnexion();
 if ($_SERVER['REQUEST_METHOD'] === "DELETE") {
     // On instancie l'objet etudiant
     $employee = new Employee($db);
+    if (isset($_GET['employee_id']) && $_GET['employee_id']!="") {
+        
+        // On récupère les infos envoyées
+        $employee_id = $_GET['employee_id'];
 
-    // On récupère les infos envoyées
-    $data = json_decode(file_get_contents("php://input"));
-
-    if (!empty($data->employee_id)) {
-        $employee->employee_id = $data->employee_id;
-        if ($employee->delete()) {
+        if ($employee->delete($employee_id)) {
             http_response_code(200);
             echo json_encode(array("message" => "La suppression a été éffectué avec sucèss"));
         } else {
             http_response_code(503);
             echo json_encode(array("message" => "La suppression n'a été éffectué"));
         }
-    } else {
+    
+    }else {
         echo json_encode(['message' => "Vous devez precisé l'identifiant de l'employee"]);
     }
 } else {

@@ -61,7 +61,7 @@ class Employee
             return false;
         }
     }
-    public function update()
+    public function update($id)
     {
         $sql = "UPDATE "
                 .$this->table ."
@@ -85,7 +85,7 @@ class Employee
 
         // éxecution de la reqête
         $re = $req->execute([
-            ":employee_id" => $this->employee_id,
+            ":employee_id" => $id,
             ":first_name" => $this->first_name,
             ":last_name" => $this->last_name,
             ":email" => $this->email,
@@ -101,12 +101,12 @@ class Employee
         } else {
             return false;
         }
-    }public function delete()
+    }public function delete($id)
     {
         $sql = "DELETE FROM $this->table WHERE employee_id = :employee_id";
         $req = $this->connexion->prepare($sql);
 
-        $re = $req->execute(array(":employee_id" => $this->employee_id));
+        $re = $req->execute(array(":employee_id" => $id));
 
         if ($re) {
             return true;
