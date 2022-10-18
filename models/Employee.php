@@ -114,6 +114,15 @@ class Employee
             return false;
         }
     }
+    public function readOne($id)
+    {
+        // On ecrit la requete
+        $sql = "SELECT e.first_name, e.last_name, e.email, e.hire_date, j.job_title, d.department_name from $this->table e LEFT JOIN jobs j ON e.job_id = j.job_id LEFT JOIN departments d ON d.department_id = e.department_id WHERE employee_id=$id";
+        // On éxecute la requête
+        $req = $this->connexion->query($sql);
+        // On retourne le resultat
+        return $req;
+    }
     
 
 

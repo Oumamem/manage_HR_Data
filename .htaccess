@@ -1,0 +1,4 @@
+RewriteEngine On
+
+RewriteRule ^(.*)$ ./index.php?q=$1 [L,QSA]
+RewriteRule ^$Employees controllers/Employee/findAllEmployee.php 
