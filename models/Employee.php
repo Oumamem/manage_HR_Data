@@ -25,10 +25,11 @@ class Employee
         }
     
     }
-    public function readAll()
+    public function readAll($offset, $row_count, $hire_year)
     {
+        $compare_year = ($hire_year)?'WHERE year(hire_date) = '.($hire_year):'';
         // On ecrit la requete
-        $sql = "SELECT e.first_name, e.last_name, e.email, e.hire_date, j.job_title, d.department_name from $this->table e LEFT JOIN jobs j ON e.job_id = j.job_id LEFT JOIN departments d ON d.department_id = e.department_id ";
+        $sql = "SELECT e.first_name, e.last_name, e.email, e.hire_date, j.job_title, d.department_name from $this->table e LEFT JOIN jobs j ON e.job_id = j.job_id LEFT JOIN departments d ON d.department_id = e.department_id $compare_year LIMIT $offset , $row_count;";
         // On éxecute la requête
         $req = $this->connexion->query($sql);
         // On retourne le resultat
@@ -118,6 +119,24 @@ class Employee
     {
         // On ecrit la requete
         $sql = "SELECT e.first_name, e.last_name, e.email, e.hire_date, j.job_title, d.department_name from $this->table e LEFT JOIN jobs j ON e.job_id = j.job_id LEFT JOIN departments d ON d.department_id = e.department_id WHERE employee_id=$id";
+        // On éxecute la requête
+        $req = $this->connexion->query($sql);
+        // On retourne le resultat
+        return $req;
+    }
+    public function readOneByDep($department_name)
+    {
+        // On ecrit la requete
+        $sql = "SELECT e.first_name, e.last_name, e.email, e.hire_date, j.job_title, d.department_name from $this->table e LEFT JOIN jobs j ON e.job_id = j.job_id LEFT JOIN departments d ON d.department_id = e.department_id WHERE d.department_name like '%$department_name'";
+        // On éxecute la requête
+        $req = $this->connexion->query($sql);
+        // On retourne le resultat
+        return $req;
+    }
+    public function readOneByHireDate($hire_date)
+    {
+        // On ecrit la requete
+        $sql = "SELECT e.first_name, e.last_name, e.email, e.hire_date, j.job_title, d.department_name from $this->table e LEFT JOIN jobs j ON e.job_id = j.job_id LEFT JOIN departments d ON d.department_id = e.department_id WHERE e.hire_date == $hire_date";
         // On éxecute la requête
         $req = $this->connexion->query($sql);
         // On retourne le resultat
