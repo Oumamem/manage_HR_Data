@@ -58,7 +58,6 @@ class User
         if($num > 0){
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            var_dump($this->password);
             $id = $row['id'];
             $firstname = $row['first_name'];
             $lastname = $row['last_name'];
@@ -84,7 +83,6 @@ class User
                         "last_name" => $lastname,
                         "email" => $this->email
                 ));
-                var_dump($token);
         
                 $jwt = JWT::encode($token, $secret_key,'HS256');
                 return true;
